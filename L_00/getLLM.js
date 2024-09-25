@@ -1,18 +1,23 @@
-require('dotenv').config();
-const { Configuration, OpenAIApi } = require('openai');
+import dotenv from 'dotenv';
+import OpenAI from 'openai';
 
-const configuration = new Configuration({
+dotenv.config();
+
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 async function getResponse(prompt) {
-  const completion = await openai.createCompletion({
-    model: 'gpt-4',
-    prompt,
-    max_tokens: 150,
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: prompt }
+    ]
   });
-  console.log(completion.data.choices[0].text.trim());
+  const generatedResponse = response.choices[0].message.content
+  // Send the response back to the client
+  console.log(generatedResponse);
 }
 
-getResponse('Hello, how can I assist you today?');
+getResponse('Where is MIT located?');
