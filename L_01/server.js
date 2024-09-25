@@ -1,25 +1,44 @@
-require('dotenv').config();
-const { Configuration, OpenAIApi } = require('openai');
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import OpenAI from 'openai';
+import fs from 'fs';
+
+dotenv.config();
+
+
+// Determine __dirname since it's not available in ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 // Serve static files like HTML, CSS, JS
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 async function getResponse(prompt) {
-  const completion = await openai.createCompletion({
-    model: 'gpt-4',
-    prompt,
-    max_tokens: 150,
-  });
-  return completion.data.choices[0].text.trim();
+  try {
+    // Call GPT-3.5
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: prompt }
+      ]
+    });
+
+    const generatedResponse = response.choices[0].message.content
+    // Send the response back to the client
+    return { response: generatedResponse };
+  } catch (error) {
+    console.error('Error generating response:', error);
+    res.status(500).json({ error: 'Failed to generate response' });
+  }
 }
 
 // API route to handle chat requests
@@ -27,7 +46,7 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { prompt } = req.body;
     const response = await getResponse(prompt);
-    res.json({ response });
+    res.json(response);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
