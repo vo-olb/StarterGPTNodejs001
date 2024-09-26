@@ -1,0 +1,22 @@
+{
+  "banking_products": [
+    {
+      "name": "Savings Account",
+      "description": "A basic savings account offering easy access to funds with a modest interest rate.",
+      "interest_rate": 0.5,
+      "requirements": "Minimum deposit of $100, no monthly fees, must be 18 years or older."
+    },
+    {
+      "name": "Fixed Deposit",
+      "description": "A time-bound deposit account offering a higher interest rate with a fixed maturity period.",
+      "interest_rate": 2.75,
+      "requirements": "Minimum deposit of $1,000, fixed tenure of 1 to 5 years, penalties for early withdrawal."
+    },
+    {
+      "name": "Home Loan",
+      "description": "A loan product designed for purchasing or refinancing a home, offering competitive interest rates and flexible terms.",
+      "interest_rate": 3.5,
+      "requirements": "Good credit score (minimum 650), proof of income, 20% down payment."
+    }
+  ]
+}

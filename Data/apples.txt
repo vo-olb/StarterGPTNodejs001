@@ -1,0 +1,19 @@
+{
+    "apples": [
+      {
+        "name": "Granny Smith",
+        "price_per_lb": 1.99,
+        "quantity_in_stock": 150
+      },
+      {
+        "name": "Honeycrisp",
+        "price_per_lb": 2.49,
+        "quantity_in_stock": 200
+      },
+      {
+        "name": "Fuji",
+        "price_per_lb": 1.79,
+        "quantity_in_stock": 120
+      }
+    ]
+  }
