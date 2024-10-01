@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
+import readline from 'readline';
 
 dotenv.config();
 
@@ -20,4 +21,11 @@ async function getResponse(prompt) {
   console.log(generatedResponse);
 }
 
-getResponse('Where is MIT located?');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question('Please enter your prompt: ', (prompt) => {
+  getResponse(prompt).then(() => rl.close());
+});
